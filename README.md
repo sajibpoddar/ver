@@ -6,10 +6,13 @@ Vercel, using Vercel's KV (Redis) store to save links.
 
 ## How it works
 
-- `/` — form to submit a long URL and get back a short code
+- `/` — form to submit a long URL (with an optional name/label) and get back a short code
 - `/[code]` — visiting a short link looks up the destination and redirects
-  to it, counting the click
-- `/stats/[code]` — shows the click count and destination for a code
+  to it, counting the click and recording which country it came from
+- `/stats/[code]` — shows the click count, destination, and a country-by-
+  country breakdown for one link
+- `/dashboard` — a table of every link you've created, with clicks and top
+  country at a glance
 
 ## 1. Push this to GitHub
 
@@ -61,9 +64,13 @@ Then open http://localhost:3000.
 - **No expiry**: links live forever by default. If you want links to
   expire, you can pass an `ex` (seconds) option when calling `kv.set` in
   `lib/kv.ts`.
-- **No auth**: anyone who can reach the site can create links. If this is
-  public-facing, consider adding a simple password gate or rate limiting
-  before you get real traffic.
+- **No auth**: anyone who can reach the site can create links, and the
+  `/dashboard` page listing all links is public too. If this is
+  public-facing, consider adding a simple password gate before you get
+  real traffic.
+- **Country tracking** uses the `x-vercel-ip-country` header that Vercel's
+  network adds automatically — it only works when deployed on Vercel, not
+  in local dev.
 - **Custom domain**: once deployed, you can attach a short custom domain
   (e.g. `sho.rt`) under the project's Settings → Domains for even shorter
   links.
