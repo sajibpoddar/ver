@@ -5,18 +5,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        sign: {
-          green: "#16342A",
-          greendark: "#0E251E",
-          white: "#F4F6F0",
-          amber: "#E3A23C",
-          asphalt: "#1A1A1A",
-          sage: "#7A9A82",
+        brand: {
+          blue: "#2563EB",
+          bluedark: "#1D4ED8",
+          bluelight: "#EFF4FF",
+          ink: "#111827",
+          muted: "#6B7280",
+          border: "#E5E7EB",
+          bg: "#F7F8FA",
         },
       },
       fontFamily: {
-        display: ["var(--font-display)"],
-        body: ["var(--font-body)"],
+        sans: ["var(--font-body)"],
+      },
+      boxShadow: {
+        card: "0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 32px rgba(16, 24, 40, 0.08)",
       },
     },
   },

@@ -15,38 +15,42 @@ export default async function DashboardPage() {
   );
 
   return (
-    <main className="min-h-screen bg-sign-green px-6 py-16">
+    <main className="min-h-screen px-6 py-16">
       <div className="max-w-3xl mx-auto">
-        <div className="flex items-baseline justify-between gap-4">
-          <h1 className="font-display font-bold text-4xl text-sign-white">
-            Route log
-          </h1>
+        <div className="flex items-center justify-between mb-8">
+          <span className="text-2xl font-extrabold text-brand-ink">
+            Short<span className="text-brand-blue">ly</span>
+          </span>
           <Link
             href="/"
-            className="font-body text-sm text-sign-sage hover:text-sign-white transition-colors"
+            className="text-sm font-medium text-brand-blue hover:text-brand-bluedark transition-colors"
           >
             + New link
           </Link>
         </div>
-        <p className="font-body text-sign-sage mt-2">
+
+        <h1 className="text-3xl font-extrabold text-brand-ink mb-1">
+          Your links
+        </h1>
+        <p className="text-brand-muted mb-8">
           Every short link you&apos;ve created, most recent first.
         </p>
 
         {rows.length === 0 ? (
-          <div className="mt-10 border border-sign-sage/40 rounded-sm p-8 text-center">
-            <p className="font-body text-sign-sage">
+          <div className="bg-white rounded-2xl shadow-card border border-brand-border p-10 text-center">
+            <p className="text-brand-muted">
               No links yet.{" "}
-              <Link href="/" className="text-sign-amber hover:underline">
+              <Link href="/" className="text-brand-blue hover:underline">
                 Create your first one
               </Link>
               .
             </p>
           </div>
         ) : (
-          <div className="mt-8 border-[3px] border-sign-white rounded-sm overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-card border border-brand-border overflow-hidden">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-sign-sage/40">
+                <tr className="border-b border-brand-border bg-brand-bg/60">
                   <Th>Link</Th>
                   <Th>Destination</Th>
                   <Th align="right">Clicks</Th>
@@ -57,38 +61,38 @@ export default async function DashboardPage() {
                 {rows.map((row) => (
                   <tr
                     key={row.code}
-                    className="border-b border-sign-sage/20 last:border-0"
+                    className="border-b border-brand-border last:border-0 hover:bg-brand-bg/40 transition-colors"
                   >
                     <td className="px-4 py-3 align-top">
                       <Link
                         href={`/stats/${row.code}`}
-                        className="font-display font-bold text-sign-amber hover:text-sign-white transition-colors"
+                        className="font-semibold text-brand-blue hover:text-brand-bluedark transition-colors"
                       >
                         /{row.code}
                       </Link>
                       {row.name && (
-                        <p className="font-body text-xs text-sign-sage mt-0.5">
+                        <p className="text-xs text-brand-muted mt-0.5">
                           {row.name}
                         </p>
                       )}
                     </td>
-                    <td className="px-4 py-3 align-top font-body text-sm text-sign-white/80 max-w-[220px] truncate">
+                    <td className="px-4 py-3 align-top text-sm text-brand-ink max-w-[220px] truncate">
                       {row.url}
                     </td>
-                    <td className="px-4 py-3 align-top font-display font-bold text-sign-white text-right">
+                    <td className="px-4 py-3 align-top font-semibold text-brand-ink text-right">
                       {row.clicks}
                     </td>
-                    <td className="px-4 py-3 align-top font-body text-sm text-sign-white/80">
+                    <td className="px-4 py-3 align-top text-sm text-brand-ink">
                       {row.top ? (
                         <span>
                           {countryFlag(row.top.code)}{" "}
                           {countryName(row.top.code)}{" "}
-                          <span className="text-sign-sage">
+                          <span className="text-brand-muted">
                             ({row.top.count})
                           </span>
                         </span>
                       ) : (
-                        <span className="text-sign-sage">—</span>
+                        <span className="text-brand-muted">—</span>
                       )}
                     </td>
                   </tr>
@@ -111,7 +115,7 @@ function Th({
 }) {
   return (
     <th
-      className={`px-4 py-3 font-body text-xs text-sign-sage ${
+      className={`px-4 py-3 text-xs font-medium text-brand-muted ${
         align === "right" ? "text-right" : "text-left"
       }`}
     >

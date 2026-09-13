@@ -14,67 +14,64 @@ export default async function StatsPage({
   const countries = Object.entries(breakdown).sort((a, b) => b[1] - a[1]);
 
   return (
-    <main className="min-h-screen bg-sign-green flex flex-col items-center justify-center px-6 py-16">
-      <div className="w-full max-w-md">
-        <Link
-          href="/dashboard"
-          className="font-body text-sm text-sign-sage hover:text-sign-white transition-colors"
-        >
-          ← All links
-        </Link>
+    <main className="min-h-screen flex flex-col items-center px-6 py-20">
+      <div className="w-full max-w-xl">
+        <div className="flex items-center justify-between mb-8">
+          <span className="text-2xl font-extrabold text-brand-ink">
+            Short<span className="text-brand-blue">ly</span>
+          </span>
+          <Link
+            href="/dashboard"
+            className="text-sm font-medium text-brand-muted hover:text-brand-ink transition-colors"
+          >
+            ← All links
+          </Link>
+        </div>
 
-        <div className="mt-6 border-[3px] border-sign-white rounded-sm p-8 relative">
-          <Corner className="top-2 left-2" />
-          <Corner className="top-2 right-2" />
-          <Corner className="bottom-2 left-2" />
-          <Corner className="bottom-2 right-2" />
-
+        <div className="bg-white rounded-2xl shadow-card border border-brand-border p-8">
           {record ? (
             <>
               {record.name && (
-                <p className="font-body text-sm text-sign-white/80 mb-1">
+                <p className="text-sm font-medium text-brand-muted mb-1">
                   {record.name}
                 </p>
               )}
-              <p className="font-body text-xs tracking-wide text-sign-sage">
-                Mile marker
+              <p className="text-xs uppercase tracking-wide text-brand-muted">
+                Total clicks
               </p>
-              <h1 className="font-display font-bold text-7xl text-sign-white leading-none mt-1">
+              <p className="text-6xl font-extrabold text-brand-blue leading-none mt-1">
                 {record.clicks}
-              </h1>
-              <p className="font-body text-sm text-sign-sage mt-1">
-                {record.clicks === 1 ? "click" : "clicks"} so far
               </p>
 
-              <div className="mt-6 pt-6 border-t border-sign-sage/40">
-                <p className="font-body text-xs text-sign-sage">Points to</p>
-                <p className="font-body text-sign-white break-all mt-1">
-                  {record.url}
-                </p>
+              <div className="mt-6 pt-6 border-t border-brand-border">
+                <p className="text-xs text-brand-muted">Destination</p>
+                <p className="text-brand-ink break-all mt-1">{record.url}</p>
               </div>
 
               <div className="mt-4">
-                <p className="font-body text-xs text-sign-sage">Short code</p>
-                <p className="font-display font-bold text-2xl text-sign-amber mt-1">
+                <p className="text-xs text-brand-muted">Short link</p>
+                <p className="font-semibold text-brand-blue mt-1">
                   /{params.code}
                 </p>
               </div>
 
               {countries.length > 0 && (
-                <div className="mt-6 pt-6 border-t border-sign-sage/40">
-                  <p className="font-body text-xs text-sign-sage mb-3">
+                <div className="mt-6 pt-6 border-t border-brand-border">
+                  <p className="text-xs text-brand-muted mb-3">
                     Clicks by country
                   </p>
                   <ul className="space-y-2">
                     {countries.map(([code, count]) => (
                       <li
                         key={code}
-                        className="flex items-center justify-between font-body text-sm text-sign-white"
+                        className="flex items-center justify-between text-sm text-brand-ink"
                       >
                         <span>
                           {countryFlag(code)} {countryName(code)}
                         </span>
-                        <span className="text-sign-sage">{count}</span>
+                        <span className="text-brand-muted font-medium">
+                          {count}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -83,10 +80,10 @@ export default async function StatsPage({
             </>
           ) : (
             <>
-              <h1 className="font-display font-bold text-3xl text-sign-white">
-                No such sign
+              <h1 className="text-2xl font-bold text-brand-ink">
+                Link not found
               </h1>
-              <p className="font-body text-sign-sage mt-2">
+              <p className="text-brand-muted mt-2">
                 There&apos;s no short link with the code &ldquo;{params.code}
                 &rdquo;.
               </p>
@@ -95,13 +92,5 @@ export default async function StatsPage({
         </div>
       </div>
     </main>
-  );
-}
-
-function Corner({ className }: { className: string }) {
-  return (
-    <span
-      className={`absolute w-2 h-2 rounded-full bg-sign-amber ${className}`}
-    />
   );
 }

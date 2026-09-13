@@ -2,15 +2,15 @@
 
 import { useState, FormEvent, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 function MissingNotice() {
   const params = useSearchParams();
   const missing = params.get("missing");
   if (!missing) return null;
   return (
-    <div className="mb-8 border border-sign-amber/60 text-sign-amber font-body text-sm rounded-sm px-4 py-3 max-w-md w-full">
-      No sign points from &ldquo;{missing}&rdquo; — that link doesn&apos;t
-      exist yet.
+    <div className="mb-6 border border-amber-300 bg-amber-50 text-amber-800 text-sm rounded-lg px-4 py-3 max-w-lg w-full">
+      That link ({missing}) doesn&apos;t exist — it may have been mistyped.
     </div>
   );
 }
@@ -64,146 +64,91 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-sign-green flex flex-col items-center px-6 py-16">
-      <Suspense fallback={null}>
-        <MissingNotice />
-      </Suspense>
-
-      <div className="w-full max-w-md">
-        {/* Hero: exit-sign motif */}
-        <div className="flex items-baseline justify-between">
-          <div className="flex items-baseline gap-3">
-            <span className="font-display font-bold text-6xl text-sign-white leading-none">
-              EXIT
-            </span>
-            <ArrowRight />
-          </div>
-          <a
+    <main className="min-h-screen flex flex-col items-center px-6 py-20">
+      <div className="w-full max-w-xl">
+        <div className="flex items-center justify-between mb-10">
+          <span className="text-2xl font-extrabold text-brand-ink">
+            Short<span className="text-brand-blue">ly</span>
+          </span>
+          <Link
             href="/dashboard"
-            className="font-body text-sm text-sign-sage hover:text-sign-white transition-colors"
+            className="text-sm font-medium text-brand-muted hover:text-brand-ink transition-colors"
           >
-            All links →
-          </a>
+            All links
+          </Link>
         </div>
-        <p className="font-body text-sign-sage mt-3 max-w-sm">
-          Paste a long URL. Get a short one that points to it — and count
-          every time someone takes it.
-        </p>
 
-        {/* Sign panel form */}
-        <form
-          onSubmit={handleSubmit}
-          className="mt-10 border-[3px] border-sign-white rounded-sm p-6 relative bg-sign-greendark/40"
-        >
-          <Corner className="top-2 left-2" />
-          <Corner className="top-2 right-2" />
-          <Corner className="bottom-2 left-2" />
-          <Corner className="bottom-2 right-2" />
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-extrabold text-brand-ink">
+            Paste the URL to be shortened
+          </h1>
+        </div>
 
-          <label
-            htmlFor="url"
-            className="font-body text-xs text-sign-sage block mb-2"
-          >
-            Destination
-          </label>
-          <input
-            id="url"
-            type="text"
-            required
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://example.com/a-very-long-path"
-            className="w-full bg-transparent border border-sign-sage/60 rounded-sm px-4 py-3 font-body text-sign-white placeholder:text-sign-sage/60 focus:outline-none focus:ring-2 focus:ring-sign-amber"
-          />
+        <Suspense fallback={null}>
+          <div className="flex justify-center">
+            <MissingNotice />
+          </div>
+        </Suspense>
 
-          <label
-            htmlFor="name"
-            className="font-body text-xs text-sign-sage block mb-2 mt-4"
-          >
-            Name (optional, for tracking)
-          </label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Facebook campaign, client email"
-            className="w-full bg-transparent border border-sign-sage/60 rounded-sm px-4 py-3 font-body text-sign-white placeholder:text-sign-sage/60 focus:outline-none focus:ring-2 focus:ring-sign-amber"
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-4 w-full bg-sign-amber text-sign-asphalt font-display font-bold text-lg tracking-wide rounded-sm py-3 hover:bg-sign-white transition-colors disabled:opacity-60"
-          >
-            {loading ? "Pointing the way…" : "Shorten it"}
-          </button>
-
-          {error && (
-            <p className="font-body text-sm text-sign-amber mt-3">{error}</p>
-          )}
-        </form>
-
-        {/* Result */}
-        {result && (
-          <div className="mt-6 border border-sign-sage/50 rounded-sm p-5">
-            <p className="font-body text-xs text-sign-sage">Your short link</p>
-            <div className="flex items-center justify-between gap-3 mt-1">
-              <p className="font-display font-bold text-xl text-sign-white break-all">
-                {origin}/{result.code}
-              </p>
+        <div className="bg-white rounded-2xl shadow-card border border-brand-border p-8">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="text"
+                required
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="Enter the link here"
+                className="flex-1 rounded-lg border border-brand-border px-4 py-3 text-brand-ink placeholder:text-brand-muted focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue"
+              />
               <button
-                onClick={handleCopy}
-                className="shrink-0 font-body text-sm text-sign-amber hover:text-sign-white transition-colors"
+                type="submit"
+                disabled={loading}
+                className="shrink-0 bg-brand-blue hover:bg-brand-bluedark text-white font-semibold rounded-lg px-6 py-3 transition-colors disabled:opacity-60"
               >
-                {copied ? "Copied" : "Copy"}
+                {loading ? "Shortening…" : "Shorten URL"}
               </button>
             </div>
-            <a
-              href={`/stats/${result.code}`}
-              className="inline-block mt-4 font-body text-sm text-sign-sage hover:text-sign-white transition-colors"
-            >
-              View click count →
-            </a>
-          </div>
-        )}
+
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name this link (optional, for tracking)"
+              className="w-full rounded-lg border border-brand-border px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-muted focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue"
+            />
+
+            {error && <p className="text-sm text-red-600">{error}</p>}
+          </form>
+
+          {result && (
+            <div className="mt-6 pt-6 border-t border-brand-border">
+              <p className="text-xs text-brand-muted mb-1">Your short link</p>
+              <div className="flex items-center justify-between gap-3 bg-brand-bluelight rounded-lg px-4 py-3">
+                <p className="font-semibold text-brand-blue break-all">
+                  {origin}/{result.code}
+                </p>
+                <button
+                  onClick={handleCopy}
+                  className="shrink-0 text-sm font-medium text-brand-blue hover:text-brand-bluedark transition-colors"
+                >
+                  {copied ? "Copied" : "Copy"}
+                </button>
+              </div>
+              <Link
+                href={`/stats/${result.code}`}
+                className="inline-block mt-3 text-sm text-brand-muted hover:text-brand-ink transition-colors"
+              >
+                View click stats →
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <p className="text-center text-sm text-brand-muted mt-6">
+          Free URL shortener with click tracking by country.
+        </p>
       </div>
     </main>
-  );
-}
-
-function Corner({ className }: { className: string }) {
-  return (
-    <span
-      className={`absolute w-2 h-2 rounded-full bg-sign-amber ${className}`}
-    />
-  );
-}
-
-function ArrowRight() {
-  return (
-    <svg
-      width="48"
-      height="24"
-      viewBox="0 0 48 24"
-      fill="none"
-      className="text-sign-amber"
-    >
-      <line
-        x1="0"
-        y1="12"
-        x2="40"
-        y2="12"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        d="M30 2L44 12L30 22"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

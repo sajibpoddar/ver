@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
-import { Archivo_Narrow, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-
-const display = Archivo_Narrow({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  variable: "--font-display",
-});
 
 const body = Inter({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-body",
 });
 
 export const metadata: Metadata = {
-  title: "Exit — short links",
+  title: "Shortly — URL shortener",
   description: "Turn long URLs into short, trackable links.",
 };
 
@@ -25,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={body.variable}>
+      <body className="bg-brand-bg">{children}</body>
     </html>
   );
 }

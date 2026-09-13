@@ -1,4 +1,4 @@
-# Exit — a short-link redirector
+# Shortly — a short-link redirector
 
 A small bit.ly-style URL shortener: paste a long URL, get a short one, and
 see how many times it's been clicked. Built with Next.js and deployed on
